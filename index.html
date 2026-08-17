@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tube Player for Safari</title>
+  <meta name="description" content="Replace YouTube's video player with Safari's native HTML5 player. Cleaner controls, Picture in Picture, and full keyboard support.">
+  <meta name="theme-color" content="#0071e3">
+  <link rel="stylesheet" href="style.css">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Tube Player for Safari">
+  <meta property="og:description" content="Native YouTube video player for Safari on iPhone, iPad, and Mac.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="images/iphone-01-player.png">
+  <style>
+    /* hide/show lang content */
+    [data-lang] { display: none; }
+    [data-lang="en"] { display: block; }
+    html[lang="ja"] [data-lang="ja"] { display: block; }
+    html[lang="ja"] [data-lang="en"] { display: none; }
+    /* inline spans */
+    span[data-lang] { display: none; }
+    span[data-lang="en"] { display: inline; }
+    html[lang="ja"] span[data-lang="ja"] { display: inline; }
+    html[lang="ja"] span[data-lang="en"] { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="icon">▶</div>
+    Tube Player for Safari
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features"><span data-lang="en">Features</span><span data-lang="ja">機能</span></a></li>
+    <li><a href="#screenshots"><span data-lang="en">Screenshots</span><span data-lang="ja">スクリーンショット</span></a></li>
+    <li><a href="#howto"><span data-lang="en">How to Use</span><span data-lang="ja">使い方</span></a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-icon">▶</div>
+
+  <h1>
+    <span data-lang="en">Tube Player<br>for Safari</span>
+    <span data-lang="ja">Tube Player<br>for Safari</span>
+  </h1>
+
+  <p class="hero-sub">
+    <span data-lang="en">Replace YouTube's video player with Safari's native HTML5 player. Cleaner controls, keyboard shortcuts, Picture in Picture, and more.</span>
+    <span data-lang="ja">YouTubeの動画プレーヤーを、Safariのネイティブ HTML5 プレーヤーに置き換えます。スッキリしたコントロール、キーボードショートカット、ピクチャーインピクチャーに対応。</span>
+  </p>
+
+  <div class="cta-buttons">
+    <a href="https://apps.apple.com/" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11.182 0c.36.014.703.1.986.252a2.5 2.5 0 0 1 .916.855c.21.333.347.703.4 1.09-.34.05-.663.163-.945.335a2.4 2.4 0 0 0-.85.882 2.37 2.37 0 0 0-.32 1.183c0 .45.12.87.336 1.232.22.364.524.655.88.855-.15.433-.36.84-.627 1.21a4.7 4.7 0 0 1-.836.92c-.3.254-.616.38-.956.38-.26 0-.528-.065-.8-.197a2.5 2.5 0 0 0-1.07-.23c-.37 0-.72.077-1.047.23-.326.153-.6.23-.82.23-.34 0-.662-.13-.966-.39a5.1 5.1 0 0 1-.84-.93 5.2 5.2 0 0 1-.673-1.266A4.7 4.7 0 0 1 4 6.7c0-.63.138-1.22.41-1.764a3.27 3.27 0 0 1 1.16-1.28 3.1 3.1 0 0 1 1.64-.474c.35 0 .692.075 1.025.224.333.15.614.225.845.225.198 0 .47-.073.818-.22.347-.146.695-.22 1.046-.22l.24.01z"/></svg>
+      <span data-lang="en">Download on the App Store</span>
+      <span data-lang="ja">App Storeからダウンロード</span>
+    </a>
+    <a href="#howto" class="btn-secondary">
+      <span data-lang="en">How to set up →</span>
+      <span data-lang="ja">設定方法 →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── Features ── -->
+<section id="features">
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">▶</div>
+      <h3><span data-lang="en">Native Player</span><span data-lang="ja">ネイティブプレーヤー</span></h3>
+      <p>
+        <span data-lang="en">Replaces YouTube's player with Safari's built-in HTML5 video player. Familiar, lightweight, and always available.</span>
+        <span data-lang="ja">YouTubeのプレーヤーをSafariのHTML5ビデオプレーヤーに置き換えます。シンプルで軽量、いつでも使えます。</span>
+      </p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⌨</div>
+      <h3><span data-lang="en">Keyboard Shortcuts</span><span data-lang="ja">キーボードショートカット</span></h3>
+      <p>
+        <span data-lang="en">Full keyboard control on Mac. Space to play/pause, J/L to seek, arrow keys for volume, F for full screen, and more.</span>
+        <span data-lang="ja">Macでフルキーボード操作。スペースで再生/一時停止、J/Lでシーク、矢印キーで音量調整、Fでフルスクリーンなど。</span>
+      </p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⧉</div>
+      <h3>Picture in Picture</h3>
+      <p>
+        <span data-lang="en">Watch videos in a floating window while you use other apps. Automatic PiP when switching tabs is supported.</span>
+        <span data-lang="ja">他のアプリを使いながら、フローティングウィンドウで動画を視聴。タブ切替時に自動でPiPに移行する機能も搭載。</span>
+      </p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📡</div>
+      <h3>AirPlay</h3>
+      <p>
+        <span data-lang="en">Stream video directly to your Apple TV or AirPlay-compatible display from the native player controls.</span>
+        <span data-lang="ja">Apple TVやAirPlay対応ディスプレイへ、ネイティブコントロールから直接ストリーミング。</span>
+      </p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3><span data-lang="en">Playback Speed</span><span data-lang="ja">再生速度</span></h3>
+      <p>
+        <span data-lang="en">Select your preferred playback speed. Your preference is saved and applied automatically on every video.</span>
+        <span data-lang="ja">好みの再生速度を選択できます。設定は保存され、次回以降も自動的に適用されます。</span>
+      </p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔒</div>
+      <h3><span data-lang="en">Your Privacy First</span><span data-lang="ja">プライバシー最優先</span></h3>
+      <p>
+        <span data-lang="en">No data collection, no analytics, no tracking. All processing happens entirely on your device.</span>
+        <span data-lang="ja">データ収集なし、アナリティクスなし、トラッキングなし。すべての処理はあなたのデバイス上で完結します。</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Screenshots ── -->
+<section id="screenshots" class="screenshots-section">
+  <div class="section-header">
+    <h2><span data-lang="en">See It in Action</span><span data-lang="ja">スクリーンショット</span></h2>
+    <p><span data-lang="en">Available on iPhone, iPad, and Mac</span><span data-lang="ja">iPhone・iPad・Macに対応</span></p>
+  </div>
+
+  <div class="device-tabs">
+    <button class="device-tab active" onclick="showDevice('iphone')">iPhone</button>
+    <button class="device-tab" onclick="showDevice('ipad')">iPad</button>
+    <button class="device-tab" onclick="showDevice('mac')">Mac</button>
+  </div>
+
+  <!-- iPhone -->
+  <div id="gallery-iphone" class="screenshot-gallery active">
+    <div class="screenshot-item iphone">
+      <img src="images/iphone-01-player.png" alt="Native player on iPhone" loading="lazy">
+      <p class="screenshot-caption"><span data-lang="en">Native Player</span><span data-lang="ja">ネイティブプレーヤー</span></p>
+    </div>
+    <div class="screenshot-item iphone">
+      <img src="images/iphone-02-popup.png" alt="Extension popup on iPhone" loading="lazy">
+      <p class="screenshot-caption"><span data-lang="en">Extension Controls</span><span data-lang="ja">拡張機能コントロール</span></p>
+    </div>
+    <div class="screenshot-item iphone">
+      <img src="images/iphone-03-setup.png" alt="Setup screen on iPhone" loading="lazy">
+      <p class="screenshot-caption"><span data-lang="en">Setup Guide</span><span data-lang="ja">設定ガイド</span></p>
+    </div>
+    <div class="screenshot-item iphone">
+      <img src="images/iphone-04-pip.png" alt="Picture in Picture on iPhone" loading="lazy">
+      <p class="screenshot-caption">Picture in Picture</p>
+    </div>
+    <div class="screenshot-item iphone">
+      <img src="images/iphone-05-privacy.png" alt="Privacy info on iPhone" loading="lazy">
+      <p class="screenshot-caption"><span data-lang="en">Privacy</span><span data-lang="ja">プライバシー</span></p>
+    </div>
+  </div>
+
+  <!-- iPad -->
+  <div id="gallery-ipad" class="screenshot-gallery">
+    <div class="screenshot-item ipad">
+      <img src="images/ipad-01-player.png" alt="Native player on iPad" loading="lazy">
+      <p class="screenshot-caption"><span data-lang="en">Native Player</span><span data-lang="ja">ネイティブプレーヤー</span></p>
+    </div>
+  </div>
+
+  <!-- Mac -->
+  <div id="gallery-mac" class="screenshot-gallery">
+    <div class="screenshot-item mac">
+      <img src="images/mac-01-player.png" alt="Native player on Mac" loading="lazy">
+      <p class="screenshot-caption"><span data-lang="en">Native Player</span><span data-lang="ja">ネイティブプレーヤー</span></p>
+    </div>
+    <div class="screenshot-item mac">
+      <img src="images/mac-02-shortcuts.png" alt="Keyboard shortcuts on Mac" loading="lazy">
+      <p class="screenshot-caption"><span data-lang="en">Keyboard Shortcuts</span><span data-lang="ja">キーボードショートカット</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ── How to Use ── -->
+<section id="howto" class="howto-section">
+  <div class="section-header">
+    <h2><span data-lang="en">How to Set Up</span><span data-lang="ja">設定方法</span></h2>
+    <p><span data-lang="en">Get started in just a few steps</span><span data-lang="ja">数ステップで開始できます</span></p>
+  </div>
+
+  <div class="platform-selector">
+    <button class="platform-btn active" onclick="showPlatform('ios')">iPhone / iPad</button>
+    <button class="platform-btn" onclick="showPlatform('mac')">Mac</button>
+  </div>
+
+  <!-- iPhone / iPad steps -->
+  <div id="steps-ios" class="platform-steps active">
+    <ol class="steps-list">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4><span data-lang="en">Install the app</span><span data-lang="ja">アプリをインストール</span></h4>
+          <p><span data-lang="en">Download Tube Player for Safari from the App Store and open it once to complete setup.</span><span data-lang="ja">App StoreからTube Player for Safariをダウンロードし、一度開いてセットアップを完了します。</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4><span data-lang="en">Open Safari Settings</span><span data-lang="ja">Safariの設定を開く</span></h4>
+          <p><span data-lang="en">Go to <code>Settings → Safari → Extensions</code> and enable <strong>Tube Player for Safari</strong>.</span><span data-lang="ja"><code>設定 → Safari → 機能拡張</code> を開き、<strong>Tube Player for Safari</strong> を有効にします。</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4><span data-lang="en">Allow access to YouTube</span><span data-lang="ja">YouTubeへのアクセスを許可</span></h4>
+          <p><span data-lang="en">When prompted, tap <strong>Allow</strong> to let the extension access YouTube pages. Or tap the <strong>AA</strong> button in Safari's address bar on a YouTube page and select <strong>Manage Extensions</strong>.</span><span data-lang="ja">確認が表示されたら <strong>許可</strong> をタップします。またはYouTubeページでSafariのアドレスバーの <strong>AA</strong> ボタンをタップし、<strong>機能拡張を管理</strong> を選択します。</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4><span data-lang="en">Open YouTube and enjoy</span><span data-lang="ja">YouTubeを開いて楽しむ</span></h4>
+          <p><span data-lang="en">Navigate to any YouTube video in Safari. The native player replaces YouTube's player automatically.</span><span data-lang="ja">SafariでYouTubeの動画ページを開きます。ネイティブプレーヤーが自動的に置き換えます。</span></p>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <!-- Mac steps -->
+  <div id="steps-mac" class="platform-steps">
+    <ol class="steps-list">
+      <li>
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4><span data-lang="en">Install the app</span><span data-lang="ja">アプリをインストール</span></h4>
+          <p><span data-lang="en">Download Tube Player for Safari from the Mac App Store and launch it.</span><span data-lang="ja">Mac App StoreからTube Player for Safariをダウンロードし、起動します。</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4><span data-lang="en">Enable in Safari Preferences</span><span data-lang="ja">Safari環境設定で有効化</span></h4>
+          <p><span data-lang="en">In Safari, go to <code>Safari → Settings → Extensions</code> and check <strong>Tube Player for Safari</strong>.</span><span data-lang="ja">Safariで <code>Safari → 設定 → 機能拡張</code> を開き、<strong>Tube Player for Safari</strong> にチェックを入れます。</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4><span data-lang="en">Allow access to YouTube</span><span data-lang="ja">YouTubeへのアクセスを許可</span></h4>
+          <p><span data-lang="en">Click the <strong>▶</strong> toolbar button on a YouTube page and choose <strong>Always Allow on youtube.com</strong>.</span><span data-lang="ja">YouTubeのページでツールバーの <strong>▶</strong> ボタンをクリックし、<strong>youtube.comで常に許可</strong> を選択します。</span></p>
+        </div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4><span data-lang="en">Start watching</span><span data-lang="ja">視聴開始</span></h4>
+          <p><span data-lang="en">Open any YouTube video. Use keyboard shortcuts: <code>Space</code> play/pause, <code>J</code>/<code>L</code> seek 10s, <code>F</code> full screen, <code>I</code> Picture in Picture.</span><span data-lang="ja">YouTubeの動画を開きます。キーボードショートカット: <code>Space</code> 再生/一時停止、<code>J</code>/<code>L</code> 10秒シーク、<code>F</code> フルスクリーン、<code>I</code> ピクチャーインピクチャー。</span></p>
+        </div>
+      </li>
+    </ol>
+
+    <!-- Keyboard reference table -->
+    <div style="margin-top:32px">
+      <h3 style="font-size:17px;font-weight:600;margin-bottom:16px"><span data-lang="en">Keyboard Shortcuts</span><span data-lang="ja">キーボードショートカット</span></h3>
+      <table style="width:100%;border-collapse:collapse;font-size:14px">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border)">
+            <th style="text-align:left;padding:8px 12px;font-weight:600"><span data-lang="en">Key</span><span data-lang="ja">キー</span></th>
+            <th style="text-align:left;padding:8px 12px;font-weight:600"><span data-lang="en">Action</span><span data-lang="ja">操作</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 12px"><code style="background:var(--bg3);padding:2px 8px;border-radius:4px;font-family:ui-monospace,'SF Mono',monospace">Space / K</code></td>
+            <td style="padding:8px 12px;color:var(--text2)"><span data-lang="en">Play / Pause</span><span data-lang="ja">再生 / 一時停止</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 12px"><code style="background:var(--bg3);padding:2px 8px;border-radius:4px;font-family:ui-monospace,'SF Mono',monospace">J / ←</code></td>
+            <td style="padding:8px 12px;color:var(--text2)"><span data-lang="en">Seek back 10s</span><span data-lang="ja">10秒戻す</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 12px"><code style="background:var(--bg3);padding:2px 8px;border-radius:4px;font-family:ui-monospace,'SF Mono',monospace">L / →</code></td>
+            <td style="padding:8px 12px;color:var(--text2)"><span data-lang="en">Seek forward 10s</span><span data-lang="ja">10秒進む</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 12px"><code style="background:var(--bg3);padding:2px 8px;border-radius:4px;font-family:ui-monospace,'SF Mono',monospace">↑ / ↓</code></td>
+            <td style="padding:8px 12px;color:var(--text2)"><span data-lang="en">Volume up / down</span><span data-lang="ja">音量 上げる / 下げる</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 12px"><code style="background:var(--bg3);padding:2px 8px;border-radius:4px;font-family:ui-monospace,'SF Mono',monospace">F</code></td>
+            <td style="padding:8px 12px;color:var(--text2)"><span data-lang="en">Full screen</span><span data-lang="ja">フルスクリーン</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 12px"><code style="background:var(--bg3);padding:2px 8px;border-radius:4px;font-family:ui-monospace,'SF Mono',monospace">M</code></td>
+            <td style="padding:8px 12px;color:var(--text2)"><span data-lang="en">Mute / Unmute</span><span data-lang="ja">ミュート / ミュート解除</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:8px 12px"><code style="background:var(--bg3);padding:2px 8px;border-radius:4px;font-family:ui-monospace,'SF Mono',monospace">I</code></td>
+            <td style="padding:8px 12px;color:var(--text2)">Picture in Picture</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px"><code style="background:var(--bg3);padding:2px 8px;border-radius:4px;font-family:ui-monospace,'SF Mono',monospace">0 – 9</code></td>
+            <td style="padding:8px 12px;color:var(--text2)"><span data-lang="en">Jump to 0%–90%</span><span data-lang="ja">0%〜90%にジャンプ</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq" class="faq-section">
+  <div class="section-header">
+    <h2>FAQ</h2>
+    <p><span data-lang="en">Frequently asked questions</span><span data-lang="ja">よくある質問</span></p>
+  </div>
+  <div class="faq-list">
+
+    <details>
+      <summary><span data-lang="en">Which YouTube pages are supported?</span><span data-lang="ja">どのYouTubeページに対応していますか？</span></summary>
+      <p><span data-lang="en">Standard video pages (youtube.com/watch), embedded players, Shorts, and playlists are detected. Live streams are handled separately. If replacement isn't possible for a particular page, the original player is left untouched.</span><span data-lang="ja">標準の動画ページ（youtube.com/watch）、埋め込みプレーヤー、ショート、プレイリストに対応しています。ライブ配信は別途処理されます。特定のページで置き換えができない場合、元のプレーヤーはそのまま維持されます。</span></p>
+    </details>
+
+    <details>
+      <summary><span data-lang="en">Can I restore the original YouTube player?</span><span data-lang="ja">元のYouTubeプレーヤーに戻せますか？</span></summary>
+      <p><span data-lang="en">Yes. Click the Tube Player toolbar button and tap "Restore Original Player" to switch back immediately. You can also disable the extension per-site or globally from the same popup.</span><span data-lang="ja">はい。ツールバーのTube Playerボタンをクリックして「元のプレーヤーに戻す」をタップすると、すぐに切り替えられます。同じポップアップからサイト単位、またはグローバルに拡張機能を無効にすることもできます。</span></p>
+    </details>
+
+    <details>
+      <summary><span data-lang="en">Does it download or save videos?</span><span data-lang="ja">動画をダウンロード・保存できますか？</span></summary>
+      <p><span data-lang="en">No. The extension only replaces the player UI — it never extracts or saves media streams. It works entirely with the video stream YouTube already provides to the page.</span><span data-lang="ja">いいえ。拡張機能はプレーヤーのUIを置き換えるだけで、メディアストリームを抽出・保存することはありません。YouTubeがページに提供している動画ストリームをそのまま使用します。</span></p>
+    </details>
+
+    <details>
+      <summary><span data-lang="en">Will it work with YouTube Premium?</span><span data-lang="ja">YouTube Premiumでも動作しますか？</span></summary>
+      <p><span data-lang="en">Yes. The extension works with both free and Premium accounts. It replaces the player regardless of account status.</span><span data-lang="ja">はい。無料アカウントとPremiumアカウントの両方で動作します。アカウントの状態に関わらず、プレーヤーを置き換えます。</span></p>
+    </details>
+
+    <details>
+      <summary><span data-lang="en">Does background audio playback work?</span><span data-lang="ja">バックグラウンド再生はできますか？</span></summary>
+      <p><span data-lang="en">Background audio behavior depends on Safari and the OS version. The extension uses only standard browser APIs — it does not bypass any platform restrictions. Picture in Picture mode enables continued playback in a floating window.</span><span data-lang="ja">バックグラウンド再生はSafariとOSバージョンによって異なります。拡張機能は標準のブラウザAPIのみを使用しており、プラットフォームの制限を回避することはありません。ピクチャーインピクチャーモードを使用すると、フローティングウィンドウで再生を継続できます。</span></p>
+    </details>
+
+    <details>
+      <summary><span data-lang="en">The player isn't replacing. What should I do?</span><span data-lang="ja">プレーヤーが置き換えられません。どうすればよいですか？</span></summary>
+      <p><span data-lang="en">1. Check that the extension is enabled in Safari Settings → Extensions. 2. Make sure access to youtube.com is allowed. 3. Reload the page. 4. Try toggling the extension off and on in the toolbar popup. If the problem persists, use "Restore Original Player" to revert and try again on the next page load.</span><span data-lang="ja">1. 設定 → Safari → 機能拡張 で拡張機能が有効になっているか確認します。2. youtube.com へのアクセスが許可されていることを確認します。3. ページを再読み込みします。4. ツールバーのポップアップで拡張機能をオフ/オンしてみます。問題が続く場合は「元のプレーヤーに戻す」を使用して元に戻し、次のページ読み込み時に再試行してください。</span></p>
+    </details>
+
+    <details>
+      <summary><span data-lang="en">What data does the extension access?</span><span data-lang="ja">拡張機能はどのデータにアクセスしますか？</span></summary>
+      <p><span data-lang="en">The extension reads the YouTube page DOM to find and replace the video player element. It stores three preferences locally: enabled/disabled state, preferred playback speed, and auto-PiP setting. No data is ever sent to any server. See the <a href="privacy.html">Privacy Policy</a> for full details.</span><span data-lang="ja">拡張機能は動画プレーヤー要素を見つけて置き換えるためにYouTubeページのDOMを読み取ります。有効/無効の状態、好みの再生速度、自動PiP設定の3つの設定をローカルに保存します。データが外部サーバーに送信されることはありません。詳細は<a href="privacy.html">プライバシーポリシー</a>をご覧ください。</span></p>
+    </details>
+
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-links">
+    <a href="index.html"><span data-lang="en">Home</span><span data-lang="ja">ホーム</span></a>
+    <a href="privacy.html"><span data-lang="en">Privacy Policy</span><span data-lang="ja">プライバシーポリシー</span></a>
+    <a href="mailto:kouhei1@gmail.com"><span data-lang="en">Support</span><span data-lang="ja">サポート</span></a>
+    <a href="https://github.com/isitest1/tube-player-for-safari">GitHub</a>
+  </div>
+  <p class="footer-copy">
+    &copy; 2026 Kohei Ishikawa. <span data-lang="en">Not affiliated with YouTube or Google.</span><span data-lang="ja">YouTubeおよびGoogleとは無関係です。</span>
+  </p>
+</footer>
+
+<script>
+// Language toggle
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase().includes(lang === 'en' ? 'en' : '日'));
+  });
+  localStorage.setItem('tp-lang', lang);
+}
+
+// Device tabs
+function showDevice(device) {
+  document.querySelectorAll('.device-tab').forEach((tab, i) => {
+    tab.classList.toggle('active', ['iphone','ipad','mac'][i] === device);
+  });
+  document.querySelectorAll('.screenshot-gallery').forEach(g => {
+    g.classList.toggle('active', g.id === 'gallery-' + device);
+  });
+}
+
+// Platform steps
+function showPlatform(platform) {
+  document.querySelectorAll('.platform-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', ['ios','mac'][i] === platform);
+  });
+  document.querySelectorAll('.platform-steps').forEach(s => {
+    s.classList.toggle('active', s.id === 'steps-' + platform);
+  });
+}
+
+// Restore saved language
+(function() {
+  const saved = localStorage.getItem('tp-lang');
+  const browserLang = navigator.language.startsWith('ja') ? 'ja' : 'en';
+  setLang(saved || browserLang);
+})();
+</script>
+</body>
+</html>
