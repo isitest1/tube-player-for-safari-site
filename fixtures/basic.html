@@ -1,0 +1,102 @@
+<!doctype html>
+<!-- S1, S2, S3, S4 (no shadow): basic video + audio detection and playbackRate limits -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AnySpeed Spike — basic</title>
+  <style>
+    body { font-family: monospace; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    video, audio { display: block; width: 100%; margin: 1rem 0; background: #000; }
+    audio { background: none; }
+    #probe-out table { border-collapse: collapse; font-size: 12px; margin-top: 8px; }
+    #probe-out td, #probe-out th { border: 1px solid #ccc; padding: 3px 7px; }
+    #probe-out th { background: #f0f0f0; }
+    button { margin: 0.25rem; padding: 0.25rem 0.5rem; }
+    .ok { color: green; font-weight: 600; } .ng { color: #c00; font-weight: 600; }
+    .warn { color: #a60; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <h1>basic — video + audio (MDN CC0)</h1>
+  <p>Media source: <a href="https://interactive-examples.mdn.mozilla.net/" target="_blank">MDN Interactive Examples</a> (CC0)</p>
+
+  <video id="v1" controls crossorigin="anonymous"
+    src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video>
+  <audio id="a1" controls crossorigin="anonymous"
+    src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3"></audio>
+
+  <p>
+    <button onclick="setRate(0.5)">0.5×</button>
+    <button onclick="setRate(1.0)">1×</button>
+    <button onclick="setRate(2.0)">2×</button>
+    <button onclick="setRate(4.0)">4×</button>
+    <button onclick="setRate(8.0)">8×</button>
+    <button onclick="setRate(16.0)">16×</button>
+    <button onclick="probeLimits()">▶ Run S2 Rate Probe</button>
+  </p>
+  <div id="probe-out"></div>
+
+  <script>
+    const v   = document.getElementById("v1");
+    const a   = document.getElementById("a1");
+
+    function setRate(r) {
+      try { v.playbackRate = r; } catch(e) { /* see probe */ }
+      try { a.playbackRate = r; } catch(e) { /* see probe */ }
+    }
+
+    function probeLimits() {
+      const RATES = [0.0625, 0.1, 0.25, 0.5, 1.0, 1.5, 2.0, 4.0, 8.0, 16.0, 32.0];
+      let html = "<table><tr><th>Rate</th><th>Set</th><th>Read back</th><th>Result</th></tr>";
+      RATES.forEach(r => {
+        let readBack, result, cls;
+        const prev = v.playbackRate;
+        try {
+          v.playbackRate = r;
+          readBack = v.playbackRate;
+          const ok = Math.abs(readBack - r) < 0.01;
+          result = ok ? "✅ OK" : (readBack !== prev ? "⚠ clamped" : "❌ rejected");
+          cls    = ok ? "ok"   : (readBack !== prev ? "warn"      : "ng");
+        } catch(e) {
+          readBack = "threw";
+          result = "❌ threw"; cls = "ng";
+        }
+        html += `<tr><td>${r}</td><td>${r}</td><td>${readBack}</td><td class="${cls}">${result}</td></tr>`;
+      });
+      html += "</table>";
+      document.getElementById("probe-out").innerHTML = html;
+      v.playbackRate = 1.0;
+    }
+
+    v.addEventListener("ratechange", () => console.log("video ratechange →", v.playbackRate));
+    a.addEventListener("ratechange", () => console.log("audio ratechange →", a.playbackRate));
+  </script>
+
+<!-- ── M1 Spike Diagnostic Panel ─────────────────────────────────────────── -->
+<style>
+  #sp{position:fixed;top:0;right:0;z-index:99999;background:rgba(0,0,0,.9);color:#eee;
+      font:11px/1.55 monospace;padding:8px 10px;min-width:230px;
+      border-bottom-left-radius:8px;pointer-events:none;}
+  #sp b{color:#4fc3f7;display:block;margin-bottom:3px;}
+  #sp .ok{color:#69f0ae;} #sp .ng{color:#ff5252;} #sp .na{color:#888;}
+</style>
+<div id="sp">
+  <b>AnySpeed Spike Diagnostics</b>
+  <div id="sp-s1">S1 ISOLATED: …</div>
+  <div id="sp-s3">S3 MAIN world: …</div>
+  <div id="sp-s4o">S4 open shadow: <span class="na">N/A</span></div>
+  <div id="sp-s4c">S4 closed shadow: <span class="na">N/A</span></div>
+</div>
+<script>
+(function(){
+  function b(ok){return ok?'<span class="ok">✅ OK</span>':'<span class="ng">❌ NG</span>';}
+  function u(){
+    var r=document.documentElement;
+    document.getElementById("sp-s1").innerHTML="S1 ISOLATED: "+b(r.hasAttribute("data-anyspeed-isolated"));
+    document.getElementById("sp-s3").innerHTML="S3 MAIN world: "+b(!!window.__anyspeedHooked);
+  }
+  setInterval(u,800);u();
+}());
+</script>
+</body>
+</html>

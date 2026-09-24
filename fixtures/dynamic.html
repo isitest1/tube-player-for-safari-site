@@ -1,0 +1,97 @@
+<!doctype html>
+<!-- S1: dynamically added video/audio elements are detected -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AnySpeed Spike — dynamic</title>
+  <style>
+    body { font-family: monospace; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    #log { white-space: pre; font-size: 12px; background: #f5f5f5; padding: 1rem; height: 160px; overflow-y: auto; }
+    button { margin: 0.25rem; padding: 0.25rem 0.5rem; }
+    video { display: block; width: 100%; margin: 0.5rem 0; background: #000; }
+  </style>
+</head>
+<body>
+  <h1>dynamic — add video/audio after page load</h1>
+  <p>Expected: after clicking Add, the extension's MediaRegistry detects each new element via MutationObserver.</p>
+  <button onclick="addVideo()">➕ Add video</button>
+  <button onclick="addAudio()">➕ Add audio</button>
+  <button onclick="swapSrc()">🔄 Swap src (same element)</button>
+  <button onclick="clearAll()">🗑 Clear all</button>
+  <div id="media-area"></div>
+  <div id="log">Waiting…</div>
+
+  <script>
+    const area = document.getElementById("media-area");
+    const log  = document.getElementById("log");
+    let seq = 0, lastVideo = null;
+
+    function append(msg) {
+      log.textContent += "\n" + msg;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function addVideo() {
+      const v = document.createElement("video");
+      v.src = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
+      v.controls = true;
+      v.dataset.seq = ++seq;
+      v.addEventListener("ratechange", () => append("video#" + v.dataset.seq + " ratechange → " + v.playbackRate));
+      area.appendChild(v);
+      lastVideo = v;
+      append("Added <video> #" + seq + " — playbackRate: " + v.playbackRate);
+    }
+
+    function addAudio() {
+      const a = document.createElement("audio");
+      a.src = "https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3";
+      a.controls = true;
+      a.dataset.seq = ++seq;
+      a.addEventListener("ratechange", () => append("audio#" + a.dataset.seq + " ratechange → " + a.playbackRate));
+      area.appendChild(a);
+      append("Added <audio> #" + seq + " — playbackRate: " + a.playbackRate);
+    }
+
+    function swapSrc() {
+      if (!lastVideo) { append("Add a video first."); return; }
+      const before = lastVideo.playbackRate;
+      lastVideo.src = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4#" + Date.now();
+      lastVideo.load();
+      append("src swapped — rate before: " + before + ", after load: " + lastVideo.playbackRate);
+    }
+
+    function clearAll() {
+      area.innerHTML = "";
+      seq = 0; lastVideo = null;
+      append("Cleared all media elements");
+    }
+  </script>
+
+<!-- ── M1 Spike Diagnostic Panel ─────────────────────────────────────────── -->
+<style>
+  #sp{position:fixed;top:0;right:0;z-index:99999;background:rgba(0,0,0,.9);color:#eee;
+      font:11px/1.55 monospace;padding:8px 10px;min-width:230px;
+      border-bottom-left-radius:8px;pointer-events:none;}
+  #sp b{color:#4fc3f7;display:block;margin-bottom:3px;}
+  #sp .ok{color:#69f0ae;} #sp .ng{color:#ff5252;} #sp .na{color:#888;}
+</style>
+<div id="sp">
+  <b>AnySpeed Spike Diagnostics</b>
+  <div id="sp-s1">S1 ISOLATED: …</div>
+  <div id="sp-s3">S3 MAIN world: …</div>
+  <div id="sp-s4o">S4 open shadow: <span class="na">N/A</span></div>
+  <div id="sp-s4c">S4 closed shadow: <span class="na">N/A</span></div>
+</div>
+<script>
+(function(){
+  function b(ok){return ok?'<span class="ok">✅ OK</span>':'<span class="ng">❌ NG</span>';}
+  function u(){
+    var r=document.documentElement;
+    document.getElementById("sp-s1").innerHTML="S1 ISOLATED: "+b(r.hasAttribute("data-anyspeed-isolated"));
+    document.getElementById("sp-s3").innerHTML="S3 MAIN world: "+b(!!window.__anyspeedHooked);
+  }
+  setInterval(u,800);u();
+}());
+</script>
+</body>
+</html>

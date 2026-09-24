@@ -1,0 +1,127 @@
+<!doctype html>
+<!-- S7/S8: fake ad player — ad detection, auto-boost, skip-button click -->
+<!-- Uses data-anyspeed-ad attribute for detection; no YouTube branding or assets -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AnySpeed Spike — fake-ad</title>
+  <style>
+    body { font-family: monospace; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    #log { white-space: pre; font-size: 12px; background: #f5f5f5; padding: 1rem; height: 160px; overflow-y: auto; }
+    button { margin: 0.25rem; padding: 0.25rem 0.5rem; }
+
+    /* Ad player chrome */
+    .player-wrap { position: relative; background: #000; width: 100%; margin: 1rem 0; }
+    .player-wrap video { display: block; width: 100%; }
+    .skip-btn {
+      display: none; position: absolute; bottom: 10px; right: 10px;
+      background: rgba(0,0,0,.75); color: #fff; border: none;
+      padding: 6px 12px; cursor: pointer; font-size: 14px; border-radius: 3px;
+    }
+    .skip-btn.visible { display: block; }
+    .ad-badge {
+      position: absolute; top: 8px; left: 8px;
+      background: rgba(255,180,0,.9); color: #000;
+      font-size: 11px; font-family: monospace;
+      padding: 2px 6px; border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h1>fake-ad — ad detection + skip (S7/S8)</h1>
+  <p>Simulates a pre-roll ad + main content.
+     Tests that AdController boosts speed and auto-clicks Skip.</p>
+  <p>Click <em>Start ad</em>, then <em>Show skip button</em>.
+     Expected: extension clicks skip without user interaction.</p>
+
+  <div class="player-wrap" id="player">
+    <video id="ad-video" controls crossorigin="anonymous"
+      data-anyspeed-ad="1"
+      src="https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3">
+    </video>
+    <div class="ad-badge" id="ad-badge" style="display:none">AD</div>
+    <button class="skip-btn" id="skip-btn" onclick="skipAd()">Skip Ad ▶</button>
+  </div>
+
+  <p>
+    <button onclick="startAd()">▶ Start ad</button>
+    <button onclick="showSkip()">Show skip button</button>
+    <button onclick="skipAd()">Manual skip</button>
+  </p>
+  <p>Skip clicks: <span id="skip-count">0</span></p>
+  <div id="log">Waiting…</div>
+
+  <script>
+    const player    = document.getElementById("player");
+    const adVideo   = document.getElementById("ad-video");
+    const skipBtn   = document.getElementById("skip-btn");
+    const adBadge   = document.getElementById("ad-badge");
+    const log       = document.getElementById("log");
+    let   skipCount = 0;
+
+    function append(msg) {
+      log.textContent += "\n" + msg;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function startAd() {
+      player.classList.add("ad-showing");
+      adBadge.style.display = "block";
+      adVideo.play().catch(() => {});
+      append("ad-showing added — rate: " + adVideo.playbackRate);
+    }
+
+    function showSkip() {
+      skipBtn.classList.add("visible");
+      append("skip button shown");
+    }
+
+    function skipAd() {
+      skipCount++;
+      document.getElementById("skip-count").textContent = skipCount;
+      player.classList.remove("ad-showing");
+      adBadge.style.display = "none";
+      skipBtn.classList.remove("visible");
+      adVideo.pause();
+      append("skip clicked (#" + skipCount + ") — isTrusted: " + (event && event.isTrusted));
+    }
+
+    adVideo.addEventListener("ratechange", () =>
+      append("ad video ratechange → " + adVideo.playbackRate)
+    );
+
+    // Expose for extension's auto-skip test
+    window.__anyspeedSkipAd = skipAd;
+  </script>
+
+<!-- ── M1 Spike Diagnostic Panel ─────────────────────────────────────────── -->
+<style>
+  #sp{position:fixed;top:0;right:0;z-index:99999;background:rgba(0,0,0,.9);color:#eee;
+      font:11px/1.55 monospace;padding:8px 10px;min-width:230px;
+      border-bottom-left-radius:8px;pointer-events:none;}
+  #sp b{color:#4fc3f7;display:block;margin-bottom:3px;}
+  #sp .ok{color:#69f0ae;} #sp .ng{color:#ff5252;} #sp .na{color:#888;}
+</style>
+<div id="sp">
+  <b>AnySpeed Spike Diagnostics</b>
+  <div id="sp-s1">S1 ISOLATED: …</div>
+  <div id="sp-s3">S3 MAIN world: …</div>
+  <div id="sp-ad">Ad attr: …</div>
+  <div id="sp-s4o">S4 open shadow: <span class="na">N/A</span></div>
+  <div id="sp-s4c">S4 closed shadow: <span class="na">N/A</span></div>
+</div>
+<script>
+(function(){
+  function b(ok){return ok?'<span class="ok">✅ OK</span>':'<span class="ng">❌ NG</span>';}
+  function u(){
+    var r   = document.documentElement;
+    var adV = document.getElementById("ad-video");
+    document.getElementById("sp-s1").innerHTML="S1 ISOLATED: "+b(r.hasAttribute("data-anyspeed-isolated"));
+    document.getElementById("sp-s3").innerHTML="S3 MAIN world: "+b(!!window.__anyspeedHooked);
+    document.getElementById("sp-ad").innerHTML="Ad attr: "+b(adV&&adV.dataset.anyspeedAd==="1");
+  }
+  setInterval(u,800);u();
+}());
+</script>
+</body>
+</html>

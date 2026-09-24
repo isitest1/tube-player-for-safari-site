@@ -1,0 +1,91 @@
+<!doctype html>
+<!-- S6: site keeps resetting playbackRate; tests standard/strong mode fight detection -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AnySpeed Spike — rate-fight</title>
+  <style>
+    body { font-family: monospace; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    #log { white-space: pre; font-size: 12px; background: #f5f5f5; padding: 1rem; height: 200px; overflow-y: auto; }
+    button { margin: 0.25rem; padding: 0.25rem 0.5rem; }
+    video { display: block; width: 100%; background: #000; margin: 1rem 0; }
+  </style>
+</head>
+<body>
+  <h1>rate-fight — competing playbackRate setter</h1>
+  <p>This page resets <code>playbackRate</code> to 1 every 2s while playing, simulating a hostile site script.</p>
+  <p><strong>Expected (standard mode):</strong> extension shows "speed locked" after 5 resets.<br>
+     <strong>Expected (strong mode):</strong> rate stays at the set value despite resets.</p>
+
+  <video id="v" controls crossorigin="anonymous"
+    src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"></video>
+
+  <p>
+    <button onclick="startFight()">▶ Start fight (every 2s)</button>
+    <button onclick="stopFight()">■ Stop fight</button>
+    <span style="margin-left:12px;">Site-reset count: <span id="count">0</span></span>
+  </p>
+  <div id="log">Waiting — play video then click Start fight…</div>
+
+  <script>
+    const v        = document.getElementById("v");
+    const log      = document.getElementById("log");
+    const countEl  = document.getElementById("count");
+    let timer = null, resets = 0;
+
+    function append(msg) {
+      log.textContent += "\n" + msg;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function startFight() {
+      stopFight();
+      timer = setInterval(() => {
+        if (!v.paused && v.playbackRate !== 1) {
+          resets++;
+          countEl.textContent = resets;
+          v.playbackRate = 1;
+          append("site-script reset → 1× (reset #" + resets + ")");
+        }
+      }, 2000);
+      append("Fight started — current rate: " + v.playbackRate);
+    }
+
+    function stopFight() {
+      if (timer) { clearInterval(timer); timer = null; }
+      append("Fight stopped");
+    }
+
+    v.addEventListener("ratechange", (e) =>
+      append("ratechange → " + v.playbackRate + " (isTrusted: " + e.isTrusted + ")")
+    );
+  </script>
+
+<!-- ── M1 Spike Diagnostic Panel ─────────────────────────────────────────── -->
+<style>
+  #sp{position:fixed;top:0;right:0;z-index:99999;background:rgba(0,0,0,.9);color:#eee;
+      font:11px/1.55 monospace;padding:8px 10px;min-width:230px;
+      border-bottom-left-radius:8px;pointer-events:none;}
+  #sp b{color:#4fc3f7;display:block;margin-bottom:3px;}
+  #sp .ok{color:#69f0ae;} #sp .ng{color:#ff5252;} #sp .na{color:#888;}
+</style>
+<div id="sp">
+  <b>AnySpeed Spike Diagnostics</b>
+  <div id="sp-s1">S1 ISOLATED: …</div>
+  <div id="sp-s3">S3 MAIN world: …</div>
+  <div id="sp-s4o">S4 open shadow: <span class="na">N/A</span></div>
+  <div id="sp-s4c">S4 closed shadow: <span class="na">N/A</span></div>
+</div>
+<script>
+(function(){
+  function b(ok){return ok?'<span class="ok">✅ OK</span>':'<span class="ng">❌ NG</span>';}
+  function u(){
+    var r=document.documentElement;
+    document.getElementById("sp-s1").innerHTML="S1 ISOLATED: "+b(r.hasAttribute("data-anyspeed-isolated"));
+    document.getElementById("sp-s3").innerHTML="S3 MAIN world: "+b(!!window.__anyspeedHooked);
+  }
+  setInterval(u,800);u();
+}());
+</script>
+</body>
+</html>
